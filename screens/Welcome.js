@@ -22,7 +22,7 @@ export default function Welcome() {
                 </View>
                 <View className='w-full justify-center flex flex-col items-center flex-1'>
                     <Image
-                        source={require('../assets/welcome.png')}
+                        source={require('../assets/smile.png')}
                         style={{ height: wp(85), width: wp(75) }}
                     />
                     <Button size='xsmall' borderRadius='rounded-3xl' backgroundColor='#005e38'>
