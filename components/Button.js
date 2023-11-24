@@ -1,50 +1,66 @@
-import React from 'react';
-import { Pressable, ActivityIndicator } from 'react-native';
-import { theme } from '../Theme/Index';
+import React, { Component } from 'react';
+import { TouchableOpacity, ActivityIndicator} from 'react-native';
 
-export default function Button({ onPress, children, backgroundColor, size = 'medium', borderRadius, classNameArg, disabled, showLoader, loaderClassName, loaderSize = 'small', loaderColor = 'white', loaderSide = 'right' }) {
-    const buttonSize = {
-        small: 'px-3 py-2',
-        base: 'px-5 py-2.5',
-        large: 'px-5 py-3',
-        xlarge: 'px-6 py-3.5'
-    }[size] || 'px-5 py-2.5';
+class Button extends Component {
+    render() {
+        const {
+            onPress,
+            children,
+            backgroundColor,
+            size = 'medium',
+            borderRadius,
+            classNameArg,
+            disabled,
+            showLoader,
+            loaderClassName,
+            loaderSize = 'small',
+            loaderColor = 'white',
+            loaderSide = 'right',
+        } = this.props;
 
-    return (
-        <Pressable
-            style={{
-                backgroundColor: disabled
-                    ? theme.bgPrimary.disabled
-                    : backgroundColor || theme.bgPrimary.primary,
-            }}
-            disabled={disabled || false}
-            className={`flex flex-row items-center my-2 
-                    ${showLoader ? 'justify-evenly' : 'justify-center'}
-                    ${buttonSize} 
-                    ${borderRadius || 'rounded-md'} 
-                    ${classNameArg || ''}`
-            }
-            onPress={onPress}
-        >
-            <React.Fragment>
-                {showLoader && loaderSide === 'left' && disabled == false && (
+        const buttonSize = {
+            xsmall: 'px-1 py-1',
+            small: 'px-3 py-2',
+            base: 'px-5 py-2.5',
+            large: 'px-5 py-3',
+            xlarge: 'px-6 py-3.5',
+            xxlarge:  'px-8 py-5',
+        }[size] || 'px-5 py-2.5';
+
+        return (
+            <TouchableOpacity
+                style={{
+                    backgroundColor: disabled
+                        ? '#0F172A'
+                        : backgroundColor || '#0F172A',
+                }}
+                disabled={disabled || false}
+                className={`flex flex-row items-center
+                        ${showLoader ? 'justify-evenly' : 'justify-center'}
+                        ${buttonSize} 
+                        ${borderRadius || 'rounded-md'} 
+                        ${classNameArg || ''}`
+                }
+                onPress={onPress}
+            >
+                {showLoader && loaderSide === 'left' && !disabled && (
                     <ActivityIndicator
                         size={loaderSize}
                         color={loaderColor}
-                        className={`inline mr-2 ${loaderClassName || ''}`}
+                        style={{ marginRight: 5 }}
                     />
                 )}
-            </React.Fragment>
-            {children}
-            <React.Fragment>
-                {showLoader && loaderSide === 'right' && disabled == false && (
+                {children}
+                {showLoader && loaderSide === 'right' && !disabled && (
                     <ActivityIndicator
                         size={loaderSize}
                         color={loaderColor}
-                        className={`inline mr-2 ${loaderClassName || ''}`}
+                        style={{ marginRight: 5 }}
                     />
                 )}
-            </React.Fragment>
-        </Pressable>
-    );
+            </TouchableOpacity>
+        );
+    }
 }
+
+export default Button;

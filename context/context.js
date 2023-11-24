@@ -3,10 +3,11 @@ import { createContext, useState } from "react";
 const Context = createContext();
 
 export function ContextProvider({ children }) {
-    const [data, setData] = useState([]);
+    const [message, setMessage] = useState([]);
+    const [queMessage, setQueMessage] = useState(null)
 
     return (
-        <Context.Provider value={{ data, setData }}>
+        <Context.Provider value={{ message, setMessage, queMessage, setQueMessage }}>
             {children}
         </Context.Provider>
     );
