@@ -19,12 +19,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/bot.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.da_true_12.ibot"
     },
     "web": {
-      "favicon": "./assets/bot.png"
+      "favicon": "./assets/icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6533fad9-3797-4103-b831-03c205862cd2"
+      }
     }
   }
 }
