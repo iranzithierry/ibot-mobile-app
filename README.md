@@ -1,6 +1,6 @@
-# Chromify Mobile
+# iBot
 
-Welcome to the Chromify, a project created by Iranzi Dev.
+Welcome to the iBot, a react native bot use api from my django backend.
 
 ## Getting Started
 
@@ -13,12 +13,3 @@ Before you begin, make sure you have the following software installed on your co
 - [Node.js](https://nodejs.org/)
 - [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/)
 - [Expo CLI](https://expo.dev/tools)
-
-### Installation
-
-1. Clone this repository to your local machine:
-
-```bash
-git clone https://github.com/iranzithierry/chromify
-cd chromify
-```
