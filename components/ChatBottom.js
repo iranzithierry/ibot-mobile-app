@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { PaperAirplaneIcon } from 'react-native-heroicons/solid'
 import Context from '../context/context'
 import { storeData } from '../utils/asyncStorage';
-import { chatgptApiCall } from '../api/openAI';
+import { iBotApiCall } from '../api/iBot';
 export default function ChatBottom() {
 
     const { setMessage, message, queMessage, setQueMessage, inputValue, setInputValue } = useContext(Context);
@@ -14,6 +14,7 @@ export default function ChatBottom() {
     }
     const sendMessage = async () => {
         if (queMessage && queMessage.trim().length !== 0) {
+            setInputValue("");
             const userMessage = {
                 sender: 'user',
                 content: queMessage,
@@ -25,10 +26,8 @@ export default function ChatBottom() {
                 setMessage([userMessage]);
             }
 
-            setInputValue("");
-
             try {
-                const responseMessage = await chatgptApiCall(queMessage);
+                const responseMessage = await iBotApiCall(queMessage);
                 const botMessage = {
                     sender: 'bot',
                     content: responseMessage,
@@ -39,7 +38,7 @@ export default function ChatBottom() {
                 setMessage(allMessages);
                 storeData("messages", JSON.stringify(allMessages));
             } catch (error) {
-                Alert.alert(`ERROR`, `${error.message}`);
+                console.log(error);
             }
 
             setQueMessage("");
