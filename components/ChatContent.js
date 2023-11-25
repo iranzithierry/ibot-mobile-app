@@ -68,7 +68,7 @@ export default function ChatContent() {
                         width: wp(75)
                     }}>
                     <Text className='text-slate-900 font-sans_bold text-base'>
-                        Hello world how are you !
+                        How can i help you today! 🤗
                     </Text>
                 </TouchableOpacity>
                 <Text className='text-slate-900 font-sans_bold text-xs self-end'>
