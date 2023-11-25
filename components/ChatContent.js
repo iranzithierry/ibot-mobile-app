@@ -105,7 +105,7 @@ export default function ChatContent() {
                                 </Text>
                             </TouchableOpacity>
                             {visibleTimeIndex === index ? (
-                                <Text className='text-slate-900/50 font-sans_bold self-end' style={{ fontSize: 10 }}>
+                                <Text className='text-slate-900/50 font-sans_bold self-start' style={{ fontSize: 10 }}>
                                     {item.time}
                                 </Text>
                             ) : null}

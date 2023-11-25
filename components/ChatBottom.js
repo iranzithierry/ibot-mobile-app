@@ -25,7 +25,7 @@ export default function ChatBottom() {
             } else {
                 setMessage([userMessage]);
             }
-            setInputValue("")
+            setInputValue(null)
             try {
                 const responseMessage = await chatgptApiCall(queMessage);
                 const botMessage = {

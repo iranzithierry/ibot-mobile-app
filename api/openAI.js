@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import { apiKey } from '../constants';
 import axios from 'axios';
 const client = axios.create({
@@ -22,6 +23,6 @@ export const chatgptApiCall = async (prompt) => {
         return answer.trim()
 
     } catch (err) {
-        console.log('error: ', err);
+        Alert.alert("Error sending a message:", err);
     }
 }
