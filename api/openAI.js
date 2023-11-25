@@ -20,6 +20,7 @@ export const chatgptApiCall = async (prompt) => {
         })
 
         let answer = res.data?.choices[0]?.message?.content;
+        console.log(res.data);
         return answer.trim()
 
     } catch (err) {

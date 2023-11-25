@@ -1,17 +1,16 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
-import React, { useCallback, useContext, useRef, useState } from 'react'
+import { View, TextInput, TouchableOpacity, Alert } from 'react-native'
+import React, { useContext } from 'react'
 import { PaperAirplaneIcon } from 'react-native-heroicons/solid'
-import { debounce } from 'lodash';
 import Context from '../context/context'
 import { storeData } from '../utils/asyncStorage';
 import { chatgptApiCall } from '../api/openAI';
 export default function ChatBottom() {
 
-    const { setMessage, message, queMessage, setQueMessage } = useContext(Context);
-    const [inputValue, setInputValue] = useState(null)
+    const { setMessage, message, queMessage, setQueMessage, inputValue, setInputValue } = useContext(Context);
 
     const handleTextChange = (value) => {
         setQueMessage(value)
+        setInputValue(value)
     }
     const sendMessage = async () => {
         if (queMessage && queMessage.trim().length !== 0) {
@@ -25,7 +24,9 @@ export default function ChatBottom() {
             } else {
                 setMessage([userMessage]);
             }
-            setInputValue(null)
+
+            setInputValue("");
+
             try {
                 const responseMessage = await chatgptApiCall(queMessage);
                 const botMessage = {
@@ -38,7 +39,7 @@ export default function ChatBottom() {
                 setMessage(allMessages);
                 storeData("messages", JSON.stringify(allMessages));
             } catch (error) {
-                console.error("Error calling chatgptApi:", error);
+                Alert.alert(`ERROR`, `${error.message}`);
             }
 
             setQueMessage("");

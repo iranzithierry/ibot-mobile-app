@@ -1,24 +1,42 @@
 import { View, Text, ScrollView, TouchableOpacity, RefreshControl } from 'react-native'
 import React, { useContext, useEffect, useRef, useState, } from 'react'
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { styled } from 'nativewind';
-const StyledView = styled(View)
 import Context from '../context/context'
 import { deleteData, getData } from '../utils/asyncStorage';
+const StyledView = styled(View)
 
 
 export default function ChatContent() {
     const scrollViewRef = useRef();
-    const { message, setMessage } = useContext(Context);
+    const { message, setMessage, selectingActive, setSelectingActive, selected, setSelected } = useContext(Context);
     const [visibleTimeIndex, setVisibleTimeIndex] = useState(null)
     const [refreshing, setIsRefreshing] = useState(false)
-
+    const [loading, setLoading] = useState(true);
 
     const scrollToTheEnd = () => {
         setTimeout(() => {
             scrollViewRef?.current?.scrollToEnd({ animated: true });
         }, 200)
     }
+    const onSelect = (item) => {
+        let index = selected.indexOf(item);
+        let newList = [...selected];
+
+        if (index > -1) {
+            newList.splice(index, 1);
+        } else {
+            newList.push(item);
+        }
+
+        setSelected(newList);
+        setSelectingActive(newList.length > 0)
+    };
+
+    const onLongPress = (item) => {
+        setSelectingActive(true);
+        setSelected([item]);
+    };
     const onRefresh = async () => {
         setIsRefreshing(true);
         const storageMessages = await getData('messages')
@@ -58,62 +76,43 @@ export default function ChatContent() {
         <ScrollView
             ref={scrollViewRef}
             bounces={true}
-            className="flex flex-col space-y-1 px-1 mb-0.5"
+            className="flex flex-col mb-0.5 px-1"
             showsVerticalScrollIndicator={true}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#005E38', '#34ab7c']} />}
         >
-            {message.length !== 0 && message.map((item, index) => {
-                const previousMessage = message[index - 1];
-                return (
-                    item.sender === 'user' ? (
-                        <StyledView className='shadow' key={index}>
-                            <TouchableOpacity className='bg-[#CBD5E1] flex flex-row py-2 px-3.5 self-end w-fit'
-                                style={{
-                                    borderTopRightRadius: previousMessage && item.sender === previousMessage.sender ? 20 : -30,
-                                    borderTopLeftRadius: 20,
-                                    borderBottomRightRadius: 20,
-                                    borderBottomLeftRadius: 20,
-                                    maxWidth: wp(75)
-                                }}
-                                onPress={() => changeVisibleTimeIndex(index)}
-                            >
-                                <Text className='text-slate-900 font-sans_semibold text-sm'>
-                                    {item.content}
-                                </Text>
-                            </TouchableOpacity>
-                            {visibleTimeIndex === index ? (
-                                <Text className='text-slate-900/50 font-sans_bold self-end' style={{ fontSize: 10 }}>
-                                    {item.time}
-                                </Text>
-                            ) : null}
-                        </StyledView>
-                    ) : (
-                        <StyledView className='shadow' key={index}>
+            {
+                message.length !== 0 && message.map((item, index) => {
+                    const prevItem = message[index - 1];
+                    const nextItem = message[index + 1];
+                    return (
+                        <StyledView className={`shadow ${selected.includes(item) ? 'my-0.5  p-0.5' : ''}`} key={index} style={{ backgroundColor: selected.includes(item) ? 'rgba(4, 120, 87, 0.4)' : 'transparent' }}>
                             <TouchableOpacity
-                                className='bg-emerald-700 flex flex-row py-2 px-2 self-start'
+                                className={`${item.sender === 'user' ? 'bg-[#CBD5E1]' : 'bg-emerald-700'} ${nextItem && item.sender === nextItem.sender ? 'mb-0.5' : 'mb-2'} flex flex-row py-2 px-4 ${item.sender === 'user' ? 'self-end' : 'self-start'} w-fit shadow shadow-slate-900`}
                                 style={{
-                                    borderTopRightRadius: 20,
-                                    borderTopLeftRadius: previousMessage && item.sender === previousMessage.sender ? 20 : -30,
-                                    borderBottomRightRadius: 20,
-                                    borderBottomLeftRadius: 20,
+                                    borderTopRightRadius: (prevItem && item.sender === prevItem.sender && item.sender === 'user') ? 8 : 20,
+                                    borderTopLeftRadius: (prevItem && item.sender === prevItem.sender && item.sender === 'bot') ? 8 : 20,
+                                    borderBottomRightRadius: (nextItem && item.sender === nextItem.sender && item.sender === 'user') ? 8 : 20,
+                                    borderBottomLeftRadius: (nextItem && item.sender === nextItem.sender && item.sender === 'bot') ? 8 : 20,
                                     maxWidth: wp(75)
                                 }}
-                                onPress={() => changeVisibleTimeIndex(index)}
+                                onPress={() => (selectingActive ? onSelect(item) : changeVisibleTimeIndex(index))}
+                                onLongPress={() => onLongPress(item)}
+                                activeOpacity={0.8}
                             >
-                                <Text className='text-white font-sans_semibold text-sm'>
+                                <Text className={`${item.sender === 'user' ? 'text-slate-900' : 'text-white'} font-sans_regular text-base`}>
                                     {item.content}
                                 </Text>
                             </TouchableOpacity>
-                            {visibleTimeIndex === index ? (
-                                <Text className='text-slate-900/50 font-sans_bold self-start' style={{ fontSize: 10 }}>
+                            {visibleTimeIndex === index && (
+                                <Text className={`'text-slate-900/50 -mt-1 mx-0.5 font-sans_bold ${item.sender === 'user' ? 'self-end' : 'self-start'}`} style={{ fontSize: 10 }}>
                                     {item.time}
                                 </Text>
-                            ) : null}
+                            )}
                         </StyledView>
                     )
-                )
 
-            })}
+                })
+            }
 
         </ScrollView>
     )

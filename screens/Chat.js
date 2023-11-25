@@ -12,7 +12,7 @@ export default function Chat() {
                 <View className='flex flex-col items-center'>
                     <ChatHeader />
                 </View>
-                <View className='flex flex-1'>
+                <View className='flex flex-1 mt-0.5'>
                     <ChatContent/>
                 </View>
                 <View className='pb-2 px-2'>
