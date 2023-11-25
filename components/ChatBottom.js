@@ -17,10 +17,10 @@ export default function ChatBottom() {
                 time: getFormattedTime(),
             };
             if (Array.isArray(message)) {
-                // storeData("messages", JSON.stringify([...message, newMessage]))
+                storeData("messages", JSON.stringify([...message, newMessage]))
                 setMessage([...message, newMessage]);
             } else {
-                // storeData("messages", JSON.stringify([newMessage]))
+                storeData("messages", JSON.stringify([newMessage]))
                 setMessage([newMessage]);
             }
             setQueMessage("")

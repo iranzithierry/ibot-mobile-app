@@ -23,7 +23,7 @@ export default function ChatContent() {
         setIsRefreshing(true);
         const storageMessages = await getData('messages')
         const jsonValue = JSON.parse(storageMessages)
-        if(jsonValue.length > message.length) {
+        if(jsonValue && jsonValue.length > message.length) {
             setMessage(jsonValue)
         }
         setIsRefreshing(false)
@@ -40,7 +40,7 @@ export default function ChatContent() {
         (async() => {
             const storageMessages = await getData('messages')
             const jsonValue = JSON.parse(storageMessages)
-            if(jsonValue.length > message.length) {
+            if(jsonValue && jsonValue.length > message.length) {
                 setMessage(jsonValue)
             }
         })()
