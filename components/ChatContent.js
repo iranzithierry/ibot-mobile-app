@@ -58,9 +58,9 @@ export default function ChatContent() {
             <StyledView className='shadow'>
                 <TouchableOpacity className='bg-[#CBD5E1] flex flex-row py-4 px-2 self-end'
                     style={{
-                        borderTopRightRadius: 20,
+                        borderTopRightRadius: -40,
                         borderTopLeftRadius: 20,
-                        borderBottomRightRadius: -40,
+                        borderBottomRightRadius: 20,
                         borderBottomLeftRadius: 20,
                         width: wp(75)
                     }}>
@@ -81,10 +81,10 @@ export default function ChatContent() {
                         <TouchableOpacity
                             className='bg-[#005E38] flex flex-row py-4 px-3 self-start'
                             style={{
-                                borderTopRightRadius: 25,
-                                borderTopLeftRadius: 25,
-                                borderBottomRightRadius: 25,
-                                borderBottomLeftRadius: -40,
+                                borderTopRightRadius: 20,
+                                borderTopLeftRadius: -40,
+                                borderBottomRightRadius: 20,
+                                borderBottomLeftRadius: 20,
                                 width: wp(75)
                             }}
                             onPress={() => changeVisibleTimeIndex(index)}
