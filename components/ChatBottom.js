@@ -27,10 +27,10 @@ export default function ChatBottom() {
             }
             setInputValue("")
             try {
-                // const responseMessage = await chatgptApiCall(queMessage);
+                const responseMessage = await chatgptApiCall(queMessage);
                 const botMessage = {
                     sender: 'bot',
-                    content: queMessage,
+                    content: responseMessage,
                     time: getFormattedTime()
                 };
 
