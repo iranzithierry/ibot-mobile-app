@@ -32,6 +32,7 @@ export default function ChatContent() {
     const changeVisibleTimeIndex = (index) => {
         if(index === visibleTimeIndex){
             setVisibleTimeIndex(null)
+            return;
         }
         setVisibleTimeIndex(index)
     }
