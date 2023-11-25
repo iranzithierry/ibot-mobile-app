@@ -15,14 +15,14 @@ export default function ChatHeader() {
             </View>
             <View className='flex flex-col justify-start'>
                 <Text className='text-xl text-center font-sans_bold text-slate-800'>
-                    More iBot
+                    iBot
                 </Text>
-                <View className='h-1.5 w-1.5 bg-green-500 rounded-full absolute bottom-1.5 left-4'/>
-                <Text className='text-slate-600 text-center font-sans_bold text-sm'>
+                <View className='h-1.5 w-1.5 bg-green-500 rounded-full absolute bottom-1.5 -left-2.5'/>
+                <Text className='text-slate-600 text-center font-sans_bold text-xs'>
                     Online
                 </Text>
             </View>
-            <View>
+            <View className='rounded-full  border border-slate-200'>
                 <Image
                     source={require('../assets/bot.png')}
                     style={{ width: wp(15), height: wp(15) }}

@@ -7,6 +7,13 @@ export const storeData = async (key, value) => {
     console.log('Error storing value: ', error);
   }
 };
+export const deleteData = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (error) {
+    console.log('Error storing value: ', error);
+  }
+};
 
 
 export const getData = async (key) => {
@@ -15,10 +22,10 @@ export const getData = async (key) => {
     if (value) {
       return value
     } else {
-      return []
+      return false
     }
   } catch (error) {
     console.log('Error retrieving value: ', error);
-    return []
+    return false
   }
 };

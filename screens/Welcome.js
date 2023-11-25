@@ -26,12 +26,12 @@ export default function Welcome() {
                         style={{ height: wp(85), width: wp(75) }}
                     />
                     <Button size='xsmall' borderRadius='rounded-3xl' backgroundColor='#005e38'>
-                        <Text className='font-sans_semibold text-white   mx-3 letter tracking-widest'>V1.0</Text>
+                        <Text className='font-sans_semibold text-white   mx-3 letter tracking-widest'>V1.1</Text>
                     </Button>
                 </View>
                 <View className='w-full justify-center flex flex-col items-center pb-2 px-2'>
                     <Text className='text-slate-600 font-sans_bold text-base my-4'>
-                        Nice to meet yout! How can i help you?
+                        Nice to meet you! How can i help you?
                     </Text>
                     <Button borderRadius='rounded-3xl' classNameArg='w-full' size='xxlarge' onPress={() => navigation.navigate('ChatScreen')}>
                         <Text className='text-white font-sans_bold text-lg'>
