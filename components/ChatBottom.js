@@ -9,11 +9,11 @@ export default function ChatBottom() {
     const { setMessage, message, queMessage, setQueMessage, inputValue, setInputValue } = useContext(Context);
 
     const handleTextChange = (value) => {
-        setQueMessage(value)
+        setQueMessage(value.trim())
         setInputValue(value)
     }
     const sendMessage = async () => {
-        if (queMessage && queMessage.trim().length !== 0) {
+        if (queMessage && queMessage.length !== 0) {
             setInputValue("");
             const userMessage = {
                 sender: 'user',
