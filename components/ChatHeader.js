@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import Context from '../context/context'
 import { storeData } from '../utils/asyncStorage';
 import Checkbox from 'expo-checkbox';
+import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOutUp } from 'react-native-reanimated';
 
 
 export default function ChatHeader() {
@@ -64,7 +65,7 @@ export default function ChatHeader() {
                     </Text>
                 </View>
             ) : (
-                <View className='flex flex-row justify-center items-center'>
+                <Animated.View exiting={FadeOutUp.delay(100).duration(500).springify()} entering={FadeInUp.delay(100).duration(500).springify()} className='flex flex-row justify-center items-center'>
                     <Button backgroundColor='#E2E8F0' borderRadius='rounded-full' classNameArg='py-2.5 px-5 ml-2' onPress={() => deleteSelected()}>
                         <Text className='text-slate-600 text-center font-sans_bold text-base'>
                             {selected.length}
@@ -83,7 +84,7 @@ export default function ChatHeader() {
                             color={isChecked ? '#005e38' : undefined}
                         />
                     </Button>
-                </View>
+                </Animated.View>
             )}
             <View className='rounded-full  border border-slate-200'>
                 <Image

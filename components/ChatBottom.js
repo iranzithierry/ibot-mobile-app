@@ -33,6 +33,11 @@ export default function ChatBottom() {
             }
 
             try {
+                // setTimeout(() => {
+                //     if(!responseMessage) {
+                //         console.log("Takes too long");
+                //     }
+                // },10000)
                 const responseMessage = await iBotApiCall(queMessage);
                 const botMessage = {
                     sender: 'bot',

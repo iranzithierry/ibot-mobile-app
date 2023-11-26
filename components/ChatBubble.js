@@ -2,13 +2,16 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useContext } from 'react'
 import Context from '../context/context'
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import Animated, {SlideInLeft, SlideInRight} from 'react-native-reanimated';
 
 const ChatBubble = ({ messages, item, index, onSelect, onLongPress, changeVisibleTimeIndex, visibleTimeIndex, processing }) => {
     const { selectingActive, selected, } = useContext(Context);
     const prevItem = messages[index - 1];
     const nextItem = messages[index + 1];
     return (
-        <View className={`${selected.includes(item) ? 'my-0.5  p-0.5' : ''}`} key={index} style={{ backgroundColor: selected.includes(item) ? 'rgba(4, 120, 87, 0.4)' : 'transparent' }}>
+        <Animated.View 
+            entering={item.sender === 'bot' ? SlideInLeft.delay(0).duration(700).easing() : SlideInRight.delay(50).delay(0).duration(700).easing()} 
+            className={`${selected.includes(item) ? 'my-0.5  p-0.5' : ''}`} key={index} style={{ backgroundColor: selected.includes(item) ? 'rgba(4, 120, 87, 0.4)' : 'transparent' }}>
             <TouchableOpacity
                 className={`${item.sender === 'user' ? 'bg-[#CBD5E1]' : 'bg-emerald-700'} ${nextItem && item.sender === nextItem.sender ? 'mb-0.5' : 'mb-2'} flex flex-row py-2 px-4 ${item.sender === 'user' ? 'self-end' : 'self-start'} w-fit`}
                 style={{
@@ -31,7 +34,7 @@ const ChatBubble = ({ messages, item, index, onSelect, onLongPress, changeVisibl
                     {item.time}
                 </Text>
             )}
-        </View>
+        </Animated.View>
     )
 }
 export default ChatBubble;
