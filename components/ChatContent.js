@@ -1,13 +1,13 @@
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl } from 'react-native'
-import React, { useContext, useEffect, useRef, useState, } from 'react'
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, StyleSheet } from 'react-native'
+import React, { useContext, useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { styled } from 'nativewind';
 import Context from '../context/context'
 import { deleteData, getData } from '../utils/asyncStorage';
+
 const StyledView = styled(View)
 
-
-export default function ChatContent() {
+const ChatContent = () => {
     const scrollViewRef = useRef();
     const { message, setMessage, selectingActive, setSelectingActive, selected, setSelected } = useContext(Context);
     const [visibleTimeIndex, setVisibleTimeIndex] = useState(null)
@@ -19,7 +19,8 @@ export default function ChatContent() {
             scrollViewRef?.current?.scrollToEnd({ animated: true });
         }, 200)
     }
-    const onSelect = (item) => {
+
+    const onSelect = useCallback((item) => {
         let index = selected.indexOf(item);
         let newList = [...selected];
 
@@ -31,12 +32,13 @@ export default function ChatContent() {
 
         setSelected(newList);
         setSelectingActive(newList.length > 0)
-    };
+    }, [selected, setSelectingActive, setSelected]);
 
-    const onLongPress = (item) => {
+    const onLongPress = useCallback((item) => {
         setSelectingActive(true);
         setSelected([item]);
-    };
+    }, [setSelectingActive, setSelected]);
+
     const onRefresh = async () => {
         setIsRefreshing(true);
         const storageMessages = await getData('messages')
@@ -56,6 +58,7 @@ export default function ChatContent() {
         }
         setVisibleTimeIndex(index)
     }
+
     useEffect(() => {
         scrollToTheEnd()
     }, [message])
@@ -72,6 +75,8 @@ export default function ChatContent() {
         })()
     }, [])
 
+    const memoizedMessages = useMemo(() => message, [message]);
+
     return (
         <ScrollView
             ref={scrollViewRef}
@@ -81,9 +86,9 @@ export default function ChatContent() {
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#005E38', '#34ab7c']} />}
         >
             {
-                message.length !== 0 && message.map((item, index) => {
-                    const prevItem = message[index - 1];
-                    const nextItem = message[index + 1];
+                memoizedMessages.length !== 0 && memoizedMessages.map((item, index) => {
+                    const prevItem = memoizedMessages[index - 1];
+                    const nextItem = memoizedMessages[index + 1];
                     return (
                         <StyledView className={`shadow ${selected.includes(item) ? 'my-0.5  p-0.5' : ''}`} key={index} style={{ backgroundColor: selected.includes(item) ? 'rgba(4, 120, 87, 0.4)' : 'transparent' }}>
                             <TouchableOpacity
@@ -110,10 +115,11 @@ export default function ChatContent() {
                             )}
                         </StyledView>
                     )
-
                 })
             }
-
         </ScrollView>
     )
 }
+
+export default ChatContent;
+                            
