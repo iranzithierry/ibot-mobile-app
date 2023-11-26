@@ -8,6 +8,7 @@ export function ContextProvider({ children }) {
     const [inputValue, setInputValue] = useState(null);
     const [selectingActive, setSelectingActive] = useState(false);
     const [selected, setSelected] = useState([]);
+    const [processing, setProcessing] = useState(false);
 
     return (
         <Context.Provider value={{
@@ -20,7 +21,9 @@ export function ContextProvider({ children }) {
             selected,
             setSelected,
             inputValue,
-            setInputValue
+            setInputValue,
+            processing,
+            setProcessing
         }}>
             {children}
         </Context.Provider>

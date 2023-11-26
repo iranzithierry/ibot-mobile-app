@@ -13,10 +13,10 @@ export default function Welcome() {
                 <View className='flex flex-col items-center'>
                     <View className='flex text-center space-y-4 pt-8'>
                         <Text className='text-4xl text-center font-sans_bold text-slate-800'>
-                            Best Personal
+                            AI Assistant
                         </Text>
                         <Text className='text-4xl text-center font-sans_bold text-slate-800'>
-                            AI Assistant
+                            iBot
                         </Text>
                     </View>
                 </View>

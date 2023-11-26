@@ -1,29 +1,35 @@
 import { View, TextInput, TouchableOpacity, Alert } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { PaperAirplaneIcon } from 'react-native-heroicons/solid'
 import Context from '../context/context'
 import { storeData } from '../utils/asyncStorage';
 import { iBotApiCall } from '../api/iBot';
 export default function ChatBottom() {
 
-    const { setMessage, message, queMessage, setQueMessage, inputValue, setInputValue } = useContext(Context);
+    const { setMessage, message, queMessage, setQueMessage, inputValue, setInputValue, processing, setProcessing } = useContext(Context);
 
-    const handleTextChange = (value) => {
+    const handleTextChange = useCallback((value) => {
         setQueMessage(value.trim())
         setInputValue(value)
-    }
+    }, [])
     const sendMessage = async () => {
+        let userMessage;
         if (queMessage && queMessage.length !== 0) {
+            setProcessing(true);
             setInputValue("");
-            const userMessage = {
-                sender: 'user',
-                content: queMessage,
-                time: getFormattedTime()
-            };
-            if (Array.isArray(message)) {
-                setMessage([...message, userMessage]);
-            } else {
-                setMessage([userMessage]);
+            try {
+                userMessage = {
+                    sender: 'user',
+                    content: queMessage,
+                    time: getFormattedTime()
+                };
+                if (Array.isArray(message)) {
+                    setMessage([...message, userMessage]);
+                } else {
+                    setMessage([userMessage]);
+                }
+            } catch (error) {
+                console.log("Error in sending message", error.message);
             }
 
             try {
@@ -38,12 +44,12 @@ export default function ChatBottom() {
                 setMessage(allMessages);
                 storeData("messages", JSON.stringify(allMessages));
             } catch (error) {
-                console.log(error);
+                console.log("Error in getting message", error.message);
+            } finally {
+                setQueMessage("");
+                setProcessing(false)
             }
-
-            setQueMessage("");
         } else {
-            console.log("No message available");
             return;
         }
     };
@@ -68,6 +74,7 @@ export default function ChatBottom() {
                 placeholder='Ask me something...'
             />
             <TouchableOpacity
+                disabled={!queMessage || queMessage.length === 0 || processing}
                 className='bg-emerald-700 rounded-2xl px-3 py-2 items-center justify-center flex flex-row'
                 onPress={() => sendMessage()}
             >
