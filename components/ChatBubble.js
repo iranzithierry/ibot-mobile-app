@@ -8,14 +8,14 @@ const ChatBubble = ({ messages, item, index, onSelect, onLongPress, changeVisibl
     const prevItem = messages[index - 1];
     const nextItem = messages[index + 1];
     return (
-        <View className={`shadow ${selected.includes(item) ? 'my-0.5  p-0.5' : ''}`} key={index} style={{ backgroundColor: selected.includes(item) ? 'rgba(4, 120, 87, 0.4)' : 'transparent' }}>
+        <View className={`${selected.includes(item) ? 'my-0.5  p-0.5' : ''}`} key={index} style={{ backgroundColor: selected.includes(item) ? 'rgba(4, 120, 87, 0.4)' : 'transparent' }}>
             <TouchableOpacity
-                className={`${item.sender === 'user' ? 'bg-[#CBD5E1]' : 'bg-emerald-700'} ${nextItem && item.sender === nextItem.sender ? 'mb-0.5' : 'mb-2'} flex flex-row py-2 px-4 ${item.sender === 'user' ? 'self-end' : 'self-start'} w-fit shadow shadow-slate-900`}
+                className={`${item.sender === 'user' ? 'bg-[#CBD5E1]' : 'bg-emerald-700'} ${nextItem && item.sender === nextItem.sender ? 'mb-0.5' : 'mb-2'} flex flex-row py-2 px-4 ${item.sender === 'user' ? 'self-end' : 'self-start'} w-fit`}
                 style={{
-                    borderTopRightRadius: (prevItem && item.sender === prevItem.sender && item.sender === 'user') ? 8 : 20,
-                    borderTopLeftRadius: (prevItem && item.sender === prevItem.sender && item.sender === 'bot') ? 8 : 20,
-                    borderBottomRightRadius: (nextItem && item.sender === nextItem.sender && item.sender === 'user') ? 8 : 20,
-                    borderBottomLeftRadius: (nextItem && item.sender === nextItem.sender && item.sender === 'bot') ? 8 : 20,
+                    borderTopRightRadius: (prevItem && item.sender === prevItem.sender && item.sender === 'user') ? 5 : 20,
+                    borderTopLeftRadius: (prevItem && item.sender === prevItem.sender && item.sender === 'bot') ? 5 : 20,
+                    borderBottomRightRadius: (nextItem && item.sender === nextItem.sender && item.sender === 'user') ? 5 : 20,
+                    borderBottomLeftRadius: (nextItem && item.sender === nextItem.sender && item.sender === 'bot') ? 5 : 20,
                     maxWidth: wp(75)
                 }}
                 onPress={() => (selectingActive ? onSelect(item) : changeVisibleTimeIndex(index))}

@@ -16,6 +16,7 @@
     "@react-navigation/native-stack": "^6.9.12",
     "axios": "^1.6.2",
     "expo": "~48.0.6",
+    "expo-checkbox": "~2.3.1",
     "expo-status-bar": "~1.4.4",
     "lodash": "^4.17.21",
     "nativewind": "^2.0.11",

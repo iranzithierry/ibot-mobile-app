@@ -1,4 +1,4 @@
-import { FlatList, RefreshControl } from 'react-native';
+import { FlatList, RefreshControl, ScrollView } from 'react-native';
 import React, { useContext, useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import Context from '../context/context';
 import { getData } from '../utils/asyncStorage';
@@ -7,7 +7,7 @@ import ProcessingIndicator from './ProcessingIndicator';
 import { Keyboard } from 'react-native';
 
 const ChatContent = () => {
-    const flatListRef = useRef();
+    const scrollViewRef = useRef();
     const { message, setMessage, setSelectingActive, selected, setSelected, processing } = useContext(Context);
     const [visibleTimeIndex, setVisibleTimeIndex] = useState(null);
     const [refreshing, setIsRefreshing] = useState(false);
@@ -59,11 +59,12 @@ const ChatContent = () => {
 
 
     useEffect(() => {
-        flatListRef?.current?.scrollToEnd({ animated: true });
+        scrollViewRef?.current?.scrollToEnd({ animated: true });
     }, [message]);
 
     useEffect(() => {
         (async () => {
+            scrollViewRef?.current?.scrollToEnd({ animated: true });
             getStorageMessages();
         })();
     }, []);
@@ -71,32 +72,31 @@ const ChatContent = () => {
     const messages = useMemo(() => message, [message]);
 
     return (
-        <FlatList
-            ref={flatListRef}
+        <ScrollView
+            ref={scrollViewRef}
             data={messages}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item, index }) => (
-                <ChatBubble
-                    messages={messages}
-                    item={item}
-                    index={index}
-                    processing={processing}
-                    onSelect={onSelect}
-                    onLongPress={onLongPress}
-                    changeVisibleTimeIndex={changeVisibleTimeIndex}
-                    visibleTimeIndex={visibleTimeIndex}
-                />
-            )}
             bounces={true}
             className="flex flex-col mb-0.5 px-1"
             showsVerticalScrollIndicator={true}
-            ListFooterComponent={() => {
-                if (processing) {
-                    return <ProcessingIndicator />
-                }
-            }}
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#005E38', '#34AB7C']} />}
-        />
+            onScrollBeginDrag={Keyboard.dismiss}
+            refreshControl={<RefreshControl enabled={true} refreshing={refreshing} onRefresh={onRefresh} colors={['#005E38', '#34AB7C']} />}
+        >
+            {messages.length !== 0 && messages.map((item, index) => {
+                return (
+                    <ChatBubble
+                        messages={messages}
+                        item={item}
+                        index={index}
+                        key={index}
+                        processing={processing}
+                        onSelect={onSelect}
+                        onLongPress={onLongPress}
+                        changeVisibleTimeIndex={changeVisibleTimeIndex}
+                        visibleTimeIndex={visibleTimeIndex}
+                    />
+                )
+            })}
+        </ScrollView>
 
     );
 };

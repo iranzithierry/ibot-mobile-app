@@ -1,15 +1,17 @@
 import { View, Text, Image } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ChevronLeftIcon, TrashIcon, XMarkIcon } from 'react-native-heroicons/solid'
 import Button from './Button';
 import { useNavigation } from '@react-navigation/native';
 import Context from '../context/context'
 import { storeData } from '../utils/asyncStorage';
+import Checkbox from 'expo-checkbox';
 
 
 export default function ChatHeader() {
     const navigation = useNavigation()
+    const [isChecked, setChecked] = useState(false);
     const { selectingActive, setSelectingActive, selected, setSelected, message, setMessage } = useContext(Context);
     const deleteSelected = () => {
         if (selected.length > 0) {
@@ -19,12 +21,31 @@ export default function ChatHeader() {
 
             setSelected([])
             setSelectingActive(false)
+            setChecked(false)
         }
     }
     const cancelSelection = () => {
         setSelectingActive(false);
         setSelected([]);
+        setChecked(false)
     }
+    const selectAll = () => {
+        if (selected.length === message.length) {
+            setSelected([])
+            setSelectingActive(false)
+            setChecked(false)
+        } else {
+            setSelected(message)
+            setChecked(true)
+        }
+    }
+    useEffect(() =>{
+        if (selected.length === message.length) {
+            setChecked(true)
+        }else{
+            setChecked(false)
+        }
+    },[selected])
     return (
         <View className='flex flex-row justify-between w-full items-center px-1'>
             <View>
@@ -54,6 +75,13 @@ export default function ChatHeader() {
                     </Button>
                     <Button backgroundColor='#E2E8F0' borderRadius='rounded-full' classNameArg='p-3 ml-2' onPress={() => cancelSelection()}>
                         <XMarkIcon size={20} color={'#005e38'} />
+                    </Button>
+                    <Button backgroundColor='#E2E8F0' borderRadius='rounded-full' classNameArg='p-3 ml-2' onPress={() => selectAll()}>
+                        <Checkbox
+                            className='text-base m-0'
+                            value={isChecked}
+                            color={isChecked ? '#005e38' : undefined}
+                        />
                     </Button>
                 </View>
             )}
