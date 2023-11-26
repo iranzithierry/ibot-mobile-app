@@ -51,13 +51,13 @@ const ChatContent = () => {
         setIsRefreshing(false)
     };
 
-    const changeVisibleTimeIndex = (index) => {
+    const changeVisibleTimeIndex = useCallback((index) => {
         if (index === visibleTimeIndex) {
             setVisibleTimeIndex(null)
             return;
         }
         setVisibleTimeIndex(index)
-    }
+    }, [visibleTimeIndex, setVisibleTimeIndex])
 
     useEffect(() => {
         scrollToTheEnd()
@@ -122,4 +122,4 @@ const ChatContent = () => {
 }
 
 export default ChatContent;
-                            
+
