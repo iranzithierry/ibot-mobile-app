@@ -38,7 +38,7 @@ export default function ChatBottom() {
                         Alert.alert("Error","Response takes too long")
                         return;
                     }
-                },10000)
+                },30000)
                 const responseMessage = await iBotApiCall(queMessage);
                 if (responseMessage && responseMessage.trim().length !== 0) {
                     const botMessage = {

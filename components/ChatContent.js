@@ -37,7 +37,7 @@ const ChatContent = () => {
         setSelected([item]);
     }, [setSelectingActive, setSelected]);
 
-    const getStorageMessages = useCallback(async () => {
+    const getStorageMessages = async () => {
         const storageMessages = await getData('messages');
         if (storageMessages) {
             const jsonValue = JSON.parse(storageMessages);
@@ -47,7 +47,7 @@ const ChatContent = () => {
             }
         }
 
-    }, [message, setMessage]);
+    };
 
     const onRefresh = useCallback(async () => {
         setIsRefreshing(true);
@@ -82,17 +82,12 @@ const ChatContent = () => {
     Keyboard.addListener('keyboardDidShow', () => scrollToEnd());
 
     useEffect(() => {
-        if (!messagesShown) {
+        (async () => {
             scrollToEnd()
-            getStorageMessages();
-        }
-    }, [messagesShown, getStorageMessages]);
-    useEffect(() => {
-        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => scrollToEnd());
+            if (!messagesShown) getStorageMessages();
+        })();
+        Keyboard.addListener('keyboardDidShow', () => scrollToEnd());
 
-        return () => {
-            keyboardDidShowListener.remove();
-        };
     }, []);
 
     const messages = useMemo(() => message, [message]);
@@ -109,7 +104,7 @@ const ChatContent = () => {
         >
             {messages.length !== 0 && messages.map((item, index) => {
                 return (
-                    <MemoizedChatBubble
+                    <ChatBubble
                         messages={messages}
                         item={item}
                         index={index}
