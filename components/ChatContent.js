@@ -8,14 +8,14 @@ import { Keyboard } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { debounce } from 'lodash';
+import { getStorageMessages } from '../utils/messagesController';
 
 
 const ChatContent = () => {
     const scrollViewRef = useRef();
-    const { message, setMessage, selectingActive, setSelectingActive, selected, setSelected, processing, messagesShown, setMessagesShown } = useContext(Context);
+    const { message, selectingActive, setSelectingActive, selected, setSelected, processing, setMessage, setMessagesShown} = useContext(Context);
     const [visibleTimeIndex, setVisibleTimeIndex] = useState(null);
     const [refreshing, setIsRefreshing] = useState(false);
-    const [loading, setLoading] = useState(true);
 
 
     const onSelect = useCallback((item) => {
@@ -37,23 +37,13 @@ const ChatContent = () => {
         setSelected([item]);
     }, [setSelectingActive, setSelected]);
 
-    const getStorageMessages = async () => {
-        const storageMessages = await getData('messages');
-        if (storageMessages) {
-            const jsonValue = JSON.parse(storageMessages);
-            if (jsonValue && jsonValue.length > message.length) {
-                setMessage(jsonValue);
-                setMessagesShown(true);
-            }
-        }
-
-    };
+    
 
     const onRefresh = useCallback(async () => {
         setIsRefreshing(true);
-        await getStorageMessages();
+        await getStorageMessages(message, setMessage, setMessagesShown);
         setIsRefreshing(false);
-    }, [getStorageMessages]);
+    }, []);
 
     const scrollToEnd = () => scrollViewRef?.current?.scrollToEnd({ animated: true });
 
@@ -81,15 +71,6 @@ const ChatContent = () => {
 
     Keyboard.addListener('keyboardDidShow', () => scrollToEnd());
 
-    useEffect(() => {
-        (async () => {
-            scrollToEnd()
-            if (!messagesShown) getStorageMessages();
-        })();
-        Keyboard.addListener('keyboardDidShow', () => scrollToEnd());
-
-    }, []);
-
     const messages = useMemo(() => message, [message]);
     const MemoizedChatBubble = useMemo(() => ChatBubble, []);
 
@@ -104,7 +85,7 @@ const ChatContent = () => {
         >
             {messages.length !== 0 && messages.map((item, index) => {
                 return (
-                    <ChatBubble
+                    <MemoizedChatBubble
                         messages={messages}
                         item={item}
                         index={index}

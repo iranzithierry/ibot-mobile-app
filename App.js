@@ -9,10 +9,10 @@ export default function App() {
   if (!fontsLoaded && !fontError) {
     return null;
   }
+
   return (
     <ContextProvider>
       <AppNavigation />
     </ContextProvider>
-
   );
 }

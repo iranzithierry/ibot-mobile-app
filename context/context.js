@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from 'react';
+import { getStorageMessages } from '../utils/messagesController';
 
 const Context = createContext();
 
@@ -10,6 +11,11 @@ export function ContextProvider({ children }) {
     const [selected, setSelected] = useState([]);
     const [processing, setProcessing] = useState(false);
     const [messagesShown, setMessagesShown] = useState(false);
+    useEffect(() => {
+        (async () => {
+            await getStorageMessages(message, setMessage, setMessagesShown);
+        })();
+    }, []);
 
     return (
         <Context.Provider value={{

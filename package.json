@@ -17,6 +17,7 @@
     "axios": "^1.6.2",
     "expo": "^49.0.0",
     "expo-checkbox": "~2.4.0",
+    "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "lodash": "^4.17.21",
     "nativewind": "^2.0.11",
