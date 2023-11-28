@@ -16,6 +16,9 @@ class Button extends Component {
             loaderSize = 'small',
             loaderColor = 'white',
             loaderSide = 'right',
+            animation = false,
+            entering = {},
+            leaving = {},
         } = this.props;
 
         const buttonSize = {

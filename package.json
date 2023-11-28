@@ -9,8 +9,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@expo-google-fonts/inter": "^0.2.3",
     "@expo-google-fonts/montserrat": "^0.2.3",
+    "@expo-google-fonts/nova-square": "^0.2.3",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
@@ -27,7 +27,8 @@
     "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
-    "react-native-svg": "13.9.0"
+    "react-native-svg": "13.9.0",
+    "react-native-typing-animation": "^0.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

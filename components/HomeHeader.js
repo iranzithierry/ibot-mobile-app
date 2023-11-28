@@ -3,7 +3,7 @@ import React from 'react'
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 export default function HomeHeader() {
     return (
-        <View className='flex flex-row justify-between w-full items-center'>
+        <View className='flex flex-row justify-between w-full items-center px-1'>
             <View className='flex flex-col justify-start'>
                 <Text className='text-3xl text-start font-sans_bold text-slate-800'>
                     Hey Iranzi

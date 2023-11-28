@@ -1,7 +1,8 @@
 import { View, Text, Image } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { ChevronLeftIcon, TrashIcon, XMarkIcon } from 'react-native-heroicons/solid'
+import { ChevronLeftIcon, TrashIcon, XMarkIcon , CheckIcon as CheckIconOutline} from 'react-native-heroicons/outline'
+import { CheckCircleIcon as CheckIconSolid} from 'react-native-heroicons/solid'
 import Button from './Button';
 import { useNavigation } from '@react-navigation/native';
 import Context from '../context/context'
@@ -25,28 +26,29 @@ export default function ChatHeader() {
             setChecked(false)
         }
     }
-    const cancelSelection = () => {
+    const cancelSelection = async () => {
         setSelectingActive(false);
         setSelected([]);
         setChecked(false)
     }
-    const selectAll = () => {
+    const selectAll = useCallback(async () => {
         if (selected.length === message.length) {
-            setSelected([])
-            setSelectingActive(false)
-            setChecked(false)
+            setSelected([]);
+            setSelectingActive(false);
+            setChecked(false);
         } else {
-            setSelected(message)
-            setChecked(true)
+            setSelected(message);
+            setChecked(true);
         }
-    }
-    useEffect(() =>{
+    }, [selected, message, setSelectingActive, setSelected, setChecked ])
+
+    useEffect(() => {
         if (selected.length === message.length) {
             setChecked(true)
-        }else{
+        } else {
             setChecked(false)
         }
-    },[selected])
+    }, [selected])
     return (
         <View className='flex flex-row justify-between w-full items-center px-1'>
             <View>
@@ -78,11 +80,7 @@ export default function ChatHeader() {
                         <XMarkIcon size={20} color={'#005e38'} />
                     </Button>
                     <Button backgroundColor='#E2E8F0' borderRadius='rounded-full' classNameArg='p-3 ml-2' onPress={() => selectAll()}>
-                        <Checkbox
-                            className='text-base m-0'
-                            value={isChecked}
-                            color={isChecked ? '#005e38' : undefined}
-                        />
+                        {isChecked ? <CheckIconSolid size={20} color={'#005e38'} /> : <CheckIconOutline size={20} color={'#005e38'} />}
                     </Button>
                 </Animated.View>
             )}

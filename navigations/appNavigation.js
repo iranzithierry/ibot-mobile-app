@@ -10,9 +10,9 @@ export default function AppNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='WelcomeScreen'>
-        <Stack.Screen name="HomeScreen" component={Home} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreen" component={Home} options={{ headerShown: false }}  />
         <Stack.Screen name="ChatScreen" component={Chat} options={{ headerShown: false }} />
-        <Stack.Screen name="WelcomeScreen" component={Welcome} options={{ headerShown: false }} />
+        <Stack.Screen name="WelcomeScreen" component={Welcome} options={{ headerShown: false }}  />
       </Stack.Navigator>
     </NavigationContainer>
   )

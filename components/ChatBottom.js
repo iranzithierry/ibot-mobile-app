@@ -16,7 +16,7 @@ export default function ChatBottom() {
         let userMessage;
         if (queMessage && queMessage.length !== 0) {
             setProcessing(true);
-            setInputValue("");
+            await setInputValue("");
             try {
                 userMessage = {
                     sender: 'user',
@@ -33,21 +33,24 @@ export default function ChatBottom() {
             }
 
             try {
-                // setTimeout(() => {
-                //     if(!responseMessage) {
-                //         console.log("Takes too long");
-                //     }
-                // },10000)
+                setTimeout(() => {
+                    if(!responseMessage) {
+                        Alert.alert("Error","Response takes too long")
+                        return;
+                    }
+                },10000)
                 const responseMessage = await iBotApiCall(queMessage);
-                const botMessage = {
-                    sender: 'bot',
-                    content: responseMessage,
-                    time: getFormattedTime()
-                };
+                if (responseMessage && responseMessage.trim().length !== 0) {
+                    const botMessage = {
+                        sender: 'bot',
+                        content: responseMessage,
+                        time: getFormattedTime()
+                    };
 
-                const allMessages = [...message, userMessage, botMessage];
-                setMessage(allMessages);
-                storeData("messages", JSON.stringify(allMessages));
+                    const allMessages = [...message, userMessage, botMessage];
+                    setMessage(allMessages);
+                    storeData("messages", JSON.stringify(allMessages));
+                }
             } catch (error) {
                 console.log("Error in getting message", error.message);
             } finally {

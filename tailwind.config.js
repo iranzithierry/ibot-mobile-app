@@ -9,12 +9,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: [" Montserrat_500Medium"],
-        sans_light: ["Montserrat_300Light"],
-        sans_regular: ["Montserrat_400Regular"],
-        sans_semibold: [" Montserrat_600SemiBold"],
-        sans_bold: ["Montserrat_700Bold"],
-        sans_extrabold: [" Montserrat_800ExtraBold"],
+        sans: [" NovaSquare_400Regular"],
+        sans_light: ["NovaSquare_400Regular"],
+        sans_regular: ["NovaSquare_400Regular"],
+        sans_semibold: [" NovaSquare_400Regular"],
+        sans_bold: ["NovaSquare_400Regular"],
+        sans_extrabold: [" NovaSquare_400Regular"],
       },
     },
   },
