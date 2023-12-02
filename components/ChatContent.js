@@ -79,7 +79,7 @@ const ChatContent = () => {
             invertStickyHeaders={true}
             refreshControl={<RefreshControl enabled={true} refreshing={refreshing} onRefresh={onRefresh} colors={['#005E38', '#34AB7C']} />}
         >
-            {messages.length !== 0 && messages.map((item, index) => {
+            {messages.length !== 0 && (message.length >= 16 ? messages.slice(-15) : message).map((item, index) => {
                 return (
                     <ChatBubble
                         messages={messages}
