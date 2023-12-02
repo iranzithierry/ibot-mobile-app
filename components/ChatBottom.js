@@ -1,5 +1,5 @@
 import { View, TextInput, TouchableOpacity, Alert } from 'react-native'
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { PaperAirplaneIcon } from 'react-native-heroicons/solid'
 import Context from '../context/context'
 import { storeData } from '../utils/asyncStorage';
@@ -7,16 +7,18 @@ import { iBotApiCall } from '../api/iBot';
 export default function ChatBottom() {
 
     const { setMessage, message, queMessage, setQueMessage, inputValue, setInputValue, processing, setProcessing } = useContext(Context);
+    const [controller] = useState(new AbortController());
+    const [signal] = useState(controller.signal);
 
     const handleTextChange = useCallback((value) => {
         setQueMessage(value.trim())
         setInputValue(value)
     }, [])
-    const sendMessage = async () => {
+    const sendMessage =useCallback( async () => {
         let userMessage;
         if (queMessage && queMessage.length !== 0) {
             setProcessing(true);
-            await setInputValue("");
+            setInputValue("");
             try {
                 userMessage = {
                     sender: 'user',
@@ -35,11 +37,13 @@ export default function ChatBottom() {
             try {
                 setTimeout(() => {
                     if(!responseMessage) {
+                        setProcessing(false);
                         Alert.alert("Error","Response takes too long")
+                        controller.abort();
                         return;
                     }
                 },30000)
-                const responseMessage = await iBotApiCall(queMessage);
+                const responseMessage = await iBotApiCall(queMessage, signal);
                 if (responseMessage && responseMessage.trim().length !== 0) {
                     const botMessage = {
                         sender: 'bot',
@@ -52,7 +56,7 @@ export default function ChatBottom() {
                     storeData("messages", JSON.stringify(allMessages));
                 }
             } catch (error) {
-                console.log("Error in getting message", error.message);
+                Alert.alert("Error in getting message", error.message);
             } finally {
                 setQueMessage("");
                 setProcessing(false)
@@ -60,7 +64,7 @@ export default function ChatBottom() {
         } else {
             return;
         }
-    };
+    },[queMessage, message]);
 
     const getFormattedTime = () => {
         const now = new Date();

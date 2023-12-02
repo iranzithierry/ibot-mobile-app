@@ -19,11 +19,8 @@ export const deleteData = async (key) => {
 export const getData = async (key) => {
   try {
     const value = await AsyncStorage.getItem(key);
-    if (value) {
-      return value
-    } else {
-      return false
-    }
+    return value ? value : false
+
   } catch (error) {
     console.log('Error retrieving value: ', error);
     return false

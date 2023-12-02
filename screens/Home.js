@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Layout from './Layout'
 import HomeHeader from '../components/HomeHeader'
@@ -13,10 +13,7 @@ export default function Home() {
 
   const getRecentChats = async () => {
     const storageMessages = await getData('messages');
-    if (storageMessages) {
-      const jsonValue = JSON.parse(storageMessages);
-      setRecentChats(jsonValue);
-    }
+    storageMessages && setRecentChats(JSON.parse(storageMessages));
   }
 
   useEffect(() => {
@@ -28,18 +25,23 @@ export default function Home() {
         <View className='flex flex-col items-center'>
           <HomeHeader />
         </View>
-        <ScrollView
-          showsHorizontalScrollIndicator={true}
-          className='flex flex-1 mt-4'>
+        <View className='flex flex-1 mt-4'>
           <ExploreSection />
           <View className='p-0.5'>
-            {recentChats.map((item, index) => {
-              return (
+            <FlatList
+              data={recentChats}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item, index }) => (
                 <RecentSearch item={item} key={index} />
-              )
-            })}
+              )}
+              ListHeaderComponent={
+                <Text className='text-white font-sans_bold text-lg'>
+                  Recent prompts
+                </Text>
+              }
+            />
           </View>
-        </ScrollView>
+        </View>
         <View className='pb-2 px-2'>
           <HomeTabs />
         </View>

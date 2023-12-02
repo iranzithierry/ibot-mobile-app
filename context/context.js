@@ -12,9 +12,11 @@ export function ContextProvider({ children }) {
     const [processing, setProcessing] = useState(false);
     const [messagesShown, setMessagesShown] = useState(false);
     useEffect(() => {
-        (async () => {
-            await getStorageMessages(message, setMessage, setMessagesShown);
-        })();
+        if (!messagesShown) {
+            (async () => {
+                await getStorageMessages(message, setMessage, setMessagesShown);
+            })();
+        }
     }, []);
 
     return (

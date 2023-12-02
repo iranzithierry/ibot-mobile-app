@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, Pressable } from 'react-native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ChevronLeftIcon, TrashIcon, XMarkIcon , CheckIcon as CheckIconOutline} from 'react-native-heroicons/outline'
@@ -7,8 +7,7 @@ import Button from './Button';
 import { useNavigation } from '@react-navigation/native';
 import Context from '../context/context'
 import { storeData } from '../utils/asyncStorage';
-import Checkbox from 'expo-checkbox';
-import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOutUp } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 
 
 export default function ChatHeader() {
@@ -43,12 +42,14 @@ export default function ChatHeader() {
     }, [selected, message, setSelectingActive, setSelected, setChecked ])
 
     useEffect(() => {
-        if (selected.length === message.length) {
-            setChecked(true)
-        } else {
-            setChecked(false)
+        if(selectingActive){
+            if (selected.length === message.length) {
+                setChecked(true)
+            } else {
+                setChecked(false)
+            }
         }
-    }, [selected])
+    }, [selectingActive, selected])
     return (
         <View className='flex flex-row justify-between w-full items-center px-1'>
             <View>
@@ -84,13 +85,13 @@ export default function ChatHeader() {
                     </Button>
                 </Animated.View>
             )}
-            <View className='rounded-full  border border-slate-200'>
+            <Pressable className='rounded-full  border border-slate-200' onPress={() => navigation.navigate("HomeScreen")}>
                 <Image
                     source={require('../assets/bot.png')}
                     style={{ width: wp(15), height: wp(15) }}
                     className='rounded-full'
                 />
-            </View>
+            </Pressable>
         </View>
     )
 }

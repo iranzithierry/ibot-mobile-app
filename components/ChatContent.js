@@ -1,13 +1,10 @@
-import { FlatList, RefreshControl, ScrollView, ToastAndroid } from 'react-native';
+import { RefreshControl, ScrollView } from 'react-native';
 import React, { useContext, useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import Context from '../context/context';
-import { getData } from '../utils/asyncStorage';
 import ChatBubble from './ChatBubble';
 import ProcessingIndicator from './ProcessingIndicator';
 import { Keyboard } from 'react-native';
-import Animated from 'react-native-reanimated';
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
-import { debounce } from 'lodash';
+import { useFocusEffect } from '@react-navigation/native';
 import { getStorageMessages } from '../utils/messagesController';
 
 
@@ -63,29 +60,28 @@ const ChatContent = () => {
                     setSelected([]);
                 }
             };
-        }, [])
+        }, [selectingActive])
     )
     useEffect(() => {
         scrollToEnd()
     }, [message]);
-
+    
     Keyboard.addListener('keyboardDidShow', () => scrollToEnd());
 
     const messages = useMemo(() => message, [message]);
-    const MemoizedChatBubble = useMemo(() => ChatBubble, []);
 
     return (
         <ScrollView
             ref={scrollViewRef}
             bounces={true}
-            className="flex flex-col mb-0.5 px-1"
+            className="flex flex-col mb-0.5 px-0"
             showsVerticalScrollIndicator={true}
             invertStickyHeaders={true}
             refreshControl={<RefreshControl enabled={true} refreshing={refreshing} onRefresh={onRefresh} colors={['#005E38', '#34AB7C']} />}
         >
             {messages.length !== 0 && messages.map((item, index) => {
                 return (
-                    <MemoizedChatBubble
+                    <ChatBubble
                         messages={messages}
                         item={item}
                         index={index}
