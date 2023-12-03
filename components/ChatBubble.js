@@ -15,7 +15,7 @@ const ChatBubble = ({ messages, item, index, onSelect, onLongPress, changeVisibl
         <Animated.View
             key={index}
             entering={ isBot  ? SlideInLeft.delay(0).duration(300).easing() : SlideInRight.delay(0).duration(300).easing()}
-            className={`${selected.includes(item) ? 'my-[0.1]  p-0.5' : ''}`} style={{ backgroundColor: selected.includes(item) ? 'rgba(4, 120, 87, 0.4)' : 'transparent' }}>
+            className={`${selected.includes(item) ? 'my-0.5  p-0.5' : ''}`} style={{ backgroundColor: selected.includes(item) ? 'rgba(4, 120, 87, 0.4)' : 'transparent' }}>
             <View className={`${isBot && 'flex flex-row items-start'} `}>
                 {isBot && (
                     <Image
