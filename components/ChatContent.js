@@ -69,7 +69,7 @@ const ChatContent = () => {
     Keyboard.addListener('keyboardDidShow', () => scrollToEnd());
 
     const messages = useMemo(() => message, [message]);
-    const last18Messages = messages.length > 16 ? messages.slice(-15) : messages
+    const last15Messages = messages.length > 16 ? messages.slice(-15) : messages
 
 
 
@@ -82,10 +82,10 @@ const ChatContent = () => {
             invertStickyHeaders={true}
             refreshControl={<RefreshControl enabled={true} refreshing={refreshing} onRefresh={onRefresh} colors={['#005E38', '#34AB7C']} />}
         >
-            {messages.length !== 0 && last18Messages.map((item, index) => {
+            {messages.length !== 0 && last15Messages.map((item, index) => {
                 return (
                     <ChatBubble
-                        messages={last18Messages}
+                        messages={last15Messages}
                         item={item}
                         index={index}
                         key={index}
