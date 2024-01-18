@@ -14,7 +14,7 @@ export const iBotApiCall = async (prompt, signal) => {
         const formData = new FormData();
         formData.append('prompt', prompt);
         const response = await client.post(API_URL, formData, { signal });
-        return response.data.bot_response;
+        return response.data.response;
     } catch (err) {
         if(!err instanceof CanceledError){
             Alert.alert('Error sending a message:', err.message);
