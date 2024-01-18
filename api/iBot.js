@@ -7,7 +7,7 @@ const client = axios.create({
     }
 })
 
-const API_URL = 'https://i-bot-api-9cc82e2ea8b1.herokuapp.com/prompt';
+const API_URL = 'https://datrue.pythonanywhere.com/prompt';
 
 export const iBotApiCall = async (prompt, signal) => {
     try {
